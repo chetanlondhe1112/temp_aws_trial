@@ -7,6 +7,9 @@ _=""" Layout definition """
 st.set_page_config(layout='wide', page_icon='📈')
 
 
+_username='chetan'
+_password='Chetan@3333'
+
 _="""
 
     Database credentials 
@@ -41,7 +44,7 @@ def sqlalchemy_connection():
 
 st.title("Database Viewer:")
 
-sq_conn,s=sqlalchemy_connection()
+sq_conn=sqlalchemy_connection()
 sq_cur=sq_conn.connect()
 
 
@@ -52,7 +55,39 @@ with st.expander("Connections"):
     st.write("Connection Cursor")
     st.write(sq_cur)
 
+if 'auth_status' not in st.session_state:
+    st.session_state["auth_status"]=False
+
+
+if not st.session_state["auth_status"]:
+    with st.sidebar:
+        st.sidebar.subheader("Login")
+        username=st.sidebar.text_input("Username")
+        password=st.sidebar.text_input("Password",type='password')
+        log=st.button("Login")
+        if log:
+            if not username==_username:
+                st.error("wrong username")
+                st.stop()
+            elif not password==_password:
+                st.error("wrong password")
+                st.stop()
+            elif username and password == None:
+                st.warning("Please login")
+            else:
+                st.success("Logged in")
+                st.session_state["auth_status"]=True
+                st.experimental_rerun()
+        st.stop()
+                
+                
 col=st.columns((1,3))
+with st.sidebar:
+    if st.button("Logout"):
+        st.session_state["auth_status"]=False
+        st.experimental_rerun()
+    st.subheader("Welcome")
+    st.info(_username)
 
 with col[0]:
     st.subheader(database+":")
