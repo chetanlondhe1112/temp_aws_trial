@@ -2,6 +2,11 @@ import streamlit as st
 from sqlalchemy import create_engine
 import pandas as pd
 
+_=""" Layout definition """
+
+st.set_page_config(layout='wide', page_icon='📈')
+
+
 _="""
 
     Database credentials 
@@ -9,11 +14,11 @@ _="""
 """  
 # fetching from .streamlit folder
 # connection credentials
-user=st.secrets["mysql"]["user"]
-password=st.secrets["mysql"]["password"]
-host=st.secrets["mysql"]["host"]
-port=st.secrets["mysql"]["port"]
-database=st.secrets["mysql"]["database"]
+user=st.secrets["mysql2"]["user"]
+password=st.secrets["mysql2"]["password"]
+host=st.secrets["mysql2"]["host"]
+port=st.secrets["mysql2"]["port"]
+database=st.secrets["mysql2"]["database"]
 # Equity tables credentials
 admin = st.secrets["admin_ch"]["admin_ch"]
 master_table = st.secrets["db_table"]["master_table"]
@@ -39,41 +44,49 @@ st.title("Database Viewer:")
 sq_conn=sqlalchemy_connection()
 sq_cur=sq_conn.connect()
 
-st.write("Connection:{}| Connection Cursor:{}".format(sq_conn,sq_cur))
+with st.expander("Connections"):
+    st.write("Connection")
+    st.write(sq_conn)
+    st.write("Connection Cursor")
+    st.write(sq_cur)
 
-st.subheader(database+":")
-q="SHOW TABLES FROM'"+ database+"'"
+col=st.columns((1,3))
 
-tables=pd.read_sql_query(q,sq_conn)
-st.subheader("Tables:")
-st.write(tables)
+with col[0]:
+    st.subheader(database+":")
+    q="SHOW TABLES FROM `"+ database+"`"
 
-selected_table=st.selectbox("Select table",options=tables.to_list())
+    tables=pd.read_sql_query(q,sq_conn)
+    st.subheader("Tables:")
+    st._legacy_dataframe(tables)
 
-t_q="SELECT * FROM '"+selected_table+"'"
-table_df=pd.read_sql_query(t_q,sq_conn)
-st.subheader(selected_table+":")
-st.write(table_df)
-  
+with col[1]:
+    selected_table=st.selectbox("Select table",options=tables['Tables_in_stocks dashboard'].to_list())
+
+    t_q="SELECT * FROM `"+str(selected_table)+"`"
+    table_df=pd.read_sql_query(t_q,sq_conn)
+    st.subheader(selected_table+":")
+    st._legacy_dataframe(table_df)
+    
 
 """
 
-        MySQL
+    #### MySQL
     The MySQL dialect uses mysql-python as the default DBAPI. There are many MySQL DBAPIs available, such as MySQL-connector-python as follows −
 
-    # default
+    ##### default
     engine = create_engine('mysql://scott:tiger@localhost/foo')
 
-    # mysql-python
+    ##### mysql-python
     engine = create_engine('mysql+mysqldb://scott:tiger@localhost/foo')
 
-    # MySQL-connector-python
+    ##### MySQL-connector-python
     engine = create_engine('mysql+mysqlconnector://scott:tiger@localhost/foo')
 
 """
 
 """
-    Streamlit error to connect mysql
+    #### Streamlit error to connect mysql
     streamlit only requires mysql-connector-python and mysql_client No need to mysql_connector
     
     Hide nysql connector in requirements.txt
