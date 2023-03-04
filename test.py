@@ -36,24 +36,15 @@ mf_rolling_return_table=st.secrets["db_table"]["mf_rolling_return_table"]
 
 def sqlalchemy_connection():
     connect_string = "mysql://{}:{}@{}:{}/{}".format(user,password,host,port,database)
-    s="mysql"
-    return create_engine(connect_string),s
+    return create_engine(connect_string)
 
-def sqlalchemy_connection_2():
-    connect_string = "mysql+mysqlconnector://{}:{}@{}:{}/{}".format(user,password,host,port,database)
-    s="mysql+mysqlconnector"
-    return create_engine(connect_string),s
 
 st.title("Database Viewer:")
-s=''
-try:
-    sq_conn,s=sqlalchemy_connection()
-    sq_cur=sq_conn.connect()
-except:
-    sq_conn,s=sqlalchemy_connection_2()
-    sq_cur=sq_conn.connect() 
 
-st.write(s)
+sq_conn,s=sqlalchemy_connection()
+sq_cur=sq_conn.connect()
+
+
 
 with st.expander("Connections"):
     st.write("Connection")
