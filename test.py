@@ -14,11 +14,11 @@ _="""
 """  
 # fetching from .streamlit folder
 # connection credentials
-user=st.secrets["mysql2"]["user"]
-password=st.secrets["mysql2"]["password"]
-host=st.secrets["mysql2"]["host"]
-port=st.secrets["mysql2"]["port"]
-database=st.secrets["mysql2"]["database"]
+user=st.secrets["mysql"]["user"]
+password=st.secrets["mysql"]["password"]
+host=st.secrets["mysql"]["host"]
+port=st.secrets["mysql"]["port"]
+database=st.secrets["mysql"]["database"]
 # Equity tables credentials
 admin = st.secrets["admin_ch"]["admin_ch"]
 master_table = st.secrets["db_table"]["master_table"]
