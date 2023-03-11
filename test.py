@@ -17,11 +17,11 @@ _="""
 """  
 # fetching from .streamlit folder
 # connection credentials
-user=st.secrets["mysql"]["user"]
-password=st.secrets["mysql"]["password"]
-host=st.secrets["mysql"]["host"]
-port=st.secrets["mysql"]["port"]
-database=st.secrets["mysql"]["database"]
+user=st.secrets["mysql_aws_rds"]["user"]
+password=st.secrets["mysql_aws_rds"]["password"]
+host=st.secrets["mysql_aws_rds"]["host"]
+port=st.secrets["mysql_aws_rds"]["port"]
+database=st.secrets["mysql_aws_rds"]["database"]
 # Equity tables credentials
 admin = st.secrets["admin_ch"]["admin_ch"]
 master_table = st.secrets["db_table"]["master_table"]
