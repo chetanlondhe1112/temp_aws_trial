@@ -98,7 +98,7 @@ with col[0]:
     st._legacy_dataframe(tables)
 
 with col[1]:
-    selected_table=st.selectbox("Select table",options=tables['Tables_in_stocks dashboard'].to_list())
+    selected_table=st.selectbox("Select table",options=tables['Tables_in_'+database].to_list())
 
     t_q="SELECT * FROM `"+str(selected_table)+"`"
     table_df=pd.read_sql_query(t_q,sq_conn)
